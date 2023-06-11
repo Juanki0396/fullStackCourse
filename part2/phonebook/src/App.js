@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import Filter from './components/Filter'
 import Form from './components/Form'
 import NumList from './components/NumList'
+import services from './services/phones'
 
 
 const App = () => {
@@ -21,17 +21,43 @@ const App = () => {
 
     const onSubmit = ev => {
         ev.preventDefault()
-        if(newName === '' || newNum === '') {
-            alert('Please, fill name and number')
+        const name = newName.trim()
+        if(name === '') {
+            alert('Please, fill the name')
         }
-        else if(persons.filter( p => p.name === newName ).length !== 0){
-            alert(`${newName} is already in the phonebook`)
+        else if(newNum === '') {
+            alert('Please, fill the number')
+        }
+        else if(persons.filter( p => p.name === name ).length !== 0){
+            const confirm = window.confirm(`Do you want to replace ${name} number?`)
+            if(confirm) {
+                const newRecord = createRecord(name, newNum)
+                const id = persons
+                    .filter( p => p.name === name )[0]
+                    .id
+                services
+                    .updatePhone(id, newRecord)
+                    .then( _ => {
+                        services
+                            .getAllPhones()
+                            .then( res => {
+                                setPersons(res)
+                                setNewName('')
+                                setNewNum('')
+                            })
+                    })
+
+            }
         }
         else {
-            const newRecord =  createRecord(newName, newNum)
-            setPersons(persons.concat(newRecord))
-            setNewName('')
-            setNewNum('')
+            const newRecord =  createRecord(name, newNum)
+            services
+                .createPhone(newRecord)
+                .then(res => {
+                    setPersons(persons.concat(res))
+                    setNewName('')
+                    setNewNum('')
+                })
         }
     }
 
@@ -40,13 +66,11 @@ const App = () => {
     }
 
     useEffect(() => {
-        axios
-            .get("http://localhost:3001/persons")
-            .then( response => {
-                setPersons(response.data)
-            })
+        services
+            .getAllPhones()
+            .then(res => setPersons(res))
     }, [])
-
+    
     return (
         <div>
             <h2>Phonebook</h2>
@@ -58,7 +82,7 @@ const App = () => {
                 onChangeNum={createOnChange(setNewNum)}
                 num={newNum}
             />
-            <NumList persons={persons} filter={filter} />
+            <NumList persons={persons} setPersons={setPersons} filter={filter} />
         </div>
     )
 }

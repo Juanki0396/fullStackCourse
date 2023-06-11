@@ -1,4 +1,6 @@
-const Form = ({onSubmit, onChangeName, name, onChangeNum, num}) => (
+
+const Form = ({onSubmit, onChangeName, name, onChangeNum, num}) => {
+    return (
     <>
         <h3>Add a new number</h3>
         <form onSubmit={onSubmit}>
@@ -13,6 +15,7 @@ const Form = ({onSubmit, onChangeName, name, onChangeNum, num}) => (
             </div>
         </form>
     </>
-)
+    )
+}
 
 export default Form;
