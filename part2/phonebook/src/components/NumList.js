@@ -1,6 +1,6 @@
 import Record from "./Record";
 
-const NumList = ({persons, setPersons, filter}) => {
+const NumList = ({persons, setPersons, filter, setError, setNoti}) => {
     return (
         <>
         <h3>Numbers</h3>
@@ -10,6 +10,8 @@ const NumList = ({persons, setPersons, filter}) => {
                 key={p.name} 
                 record={p}
                 setPersons={setPersons}
+                setError={setError}
+                setNoti={setNoti}
                 />
             )
         }
