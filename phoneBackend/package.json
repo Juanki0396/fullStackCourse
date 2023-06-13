@@ -1,0 +1,21 @@
+{
+  "name": "phonebackend",
+  "version": "0.1.0",
+  "description": "Backend for a phone book app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "PORT=3001 nodemon index.js",
+    "test": "echo \"There is any test to execute\" && exit 1"
+  },
+  "author": "Juan Carlos Aranda",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.2.15",
+    "nodemon": "^2.0.22"
+  }
+}
