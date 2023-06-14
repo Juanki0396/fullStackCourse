@@ -3,10 +3,13 @@ const errorHandling = (err, _, res, next) => {
     if (err.name === "CastError") {
         return res.status(400).send({error: "Wrong Id format"})
     }
+    else if (err.name === "ValidationError") {
+        return res.status(400).json({ error: err.message })
+    }
     next(err)
 }
 
-const unknownEndpoint = (request, response) => {
+const unknownEndpoint = (_, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
 

@@ -19,17 +19,14 @@ app.get('/api/persons', (_, res) => {
         })
 })
 
-app.post('/api/persons', (req, res) => {
-    const phone = req.body
+app.post('/api/persons', (req, res, next) => {
+    const body = req.body
     
-    if (!phone.name) {
-        res.status(400).json({error: "name field is not setted"})
-        return null
-    }
-    else if (!phone.number) {
-        res.status(400).json({error: "number field is not setted"})
-        return null
-    }
+    const phone = Phone({
+        name: body.name,
+        number: body.number
+    })
+
     Phone
         .find({name: phone.name})
         .then(phones => {
@@ -37,15 +34,12 @@ app.post('/api/persons', (req, res) => {
                 res.status(400).json({error: `${phone.name} already exists`})
                 return null
             }
-            const newPhone = Phone({
-                name: phone.name,
-                number: phone.number
-            })
-            newPhone
+            phone
                 .save()
                 .then(p => {
                     res.json(p)
                 })
+                .catch(err => next(err))
         })
 })
 
@@ -79,14 +73,14 @@ app.delete('/api/persons/:id', (req, res, next) => {
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
-    const body = req.body
-    const phone = {
-        name: body.name,
-        number: body.number
-    }
+    const { name, number } = req.body
 
     Phone
-        .findByIdAndUpdate(req.params.id, phone, { new: true })
+        .findByIdAndUpdate(
+            req.params.id,
+            { name, number },
+            { new: true, runValidators: true, context: "query" }
+        )
         .then( updatedPhone => res.json(updatedPhone) )
         .catch( err => next(err) )
 })

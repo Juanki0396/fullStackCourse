@@ -70,8 +70,8 @@ const App = () => {
                     setNewNum('')
                     setTimeout(() => setNotification(null), 5000)
                 })
-                .catch( _ => {
-                    setError(`Cannot add ${name} to the PhoneBook`)
+                .catch( err => {
+                    setError(err.response.data.error)
                     setTimeout(() => setError(null), 5000)
                 })
         }
