@@ -8,7 +8,8 @@
     "dev": "nodemon index.js",
     "test": "echo \"There is any test to execute\" && exit 1",
     "build:ui": "rm -rf build && cd ../phonebook && npm run build && cp -r build ../phoneBackend",
-    "deploy:render": "npm run build:ui && git add . && git commit -m renderDeploy && git push"
+    "deploy:render": "npm run build:ui && git add . && git commit -m renderDeploy && git push",
+    "lint": "eslint --fix ."
   },
   "author": "Juan Carlos Aranda",
   "license": "MIT",
@@ -19,6 +20,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.42.0",
     "nodemon": "^2.0.22"
   }
 }
