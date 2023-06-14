@@ -6,4 +6,6 @@
 # testing
 /coverage
 
+#Secrets
+.env
 
