@@ -4,8 +4,9 @@
   "description": "API in Node for a blog app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Any test defined\" && exit 1",
-    "dev": "nodemon index.js"
+    "test": "jest .",
+    "dev": "nodemon index.js",
+    "format": "eslint --fix ."
   },
   "keywords": [
     "Backend",
@@ -15,6 +16,8 @@
   "author": "Juan Carlos Aranda Huecas",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^8.42.0",
+    "jest": "^29.5.0",
     "nodemon": "^2.0.22"
   },
   "dependencies": {
