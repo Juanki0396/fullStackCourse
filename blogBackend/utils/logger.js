@@ -1,9 +1,15 @@
+const config = require("./config")
+
 const info = (...params) => {
-    console.log("INFO:", ...params)
+    if(process.env.NODE_ENV !== "test" || config.TEST_LOGS ) {
+        console.log("INFO:", ...params)
+    }
 }
 
 const error = (...params) => {
-    console.error("ERROR:", ...params)
+    if(process.env.NODE_ENV !== "test" || config.TEST_LOGS ) {
+        console.error("ERROR:", ...params)
+    }
 }
 
 module.exports = { info, error }
