@@ -1,5 +1,3 @@
-const dummy = () => 1
-
 const totalLikes = blogArr => blogArr.reduce((likes, b) => likes + b.likes, 0)
 
 const favoriteBlog = blogArr => {
@@ -86,7 +84,6 @@ const mostLikes = blogArr => {
 }
 
 module.exports = { 
-    dummy, 
     totalLikes, 
     favoriteBlog,
     mostBlogs,

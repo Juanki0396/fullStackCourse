@@ -1,14 +1,4 @@
-const { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes } = require("../utils/list_helper")
-
-describe("dummy", () => {
-    test("Returns 1", () => {
-        const blogs = []
-
-        const result = dummy(blogs)
-        expect(result).toBe(1)
-
-    })
-})
+const { totalLikes, favoriteBlog, mostBlogs, mostLikes } = require("../utils/list_helper")
 
 describe("totalLikes", () => {
     test("Empty arr returns 0", () => {
