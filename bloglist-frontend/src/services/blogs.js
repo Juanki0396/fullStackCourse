@@ -1,9 +1,9 @@
-import axios from 'axios'
-const baseUrl = '/api/blogs'
+import axios from "axios"
+const baseUrl = "/api/blogs"
 
 const getAll = async () => {
-  const response = await axios.get(baseUrl)
-  return response.data
+    const response = await axios.get(baseUrl)
+    return response.data
 }
 
 const postOne = async (blogData, token) => {
@@ -14,5 +14,20 @@ const postOne = async (blogData, token) => {
     return res.data
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll , postOne }
+const putBlog = async (id, blogData, token) => {
+    const headers = {
+        Authorization: "Bearer " + token
+    }
+    const res = await axios.put(`/api/blogs/${id}` , blogData, { headers })
+    return res.data
+}
+
+const deleteBlog = async (id, token) => {
+    const headers = {
+        Authorization: "Bearer " + token
+    }
+    const res = await axios.delete(`/api/blogs/${id}`, { headers })
+    return res.data
+}
+
+export default { getAll , postOne, putBlog, deleteBlog }
