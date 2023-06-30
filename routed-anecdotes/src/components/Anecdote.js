@@ -11,7 +11,6 @@ const Anecdote = () => {
     if (!anecdote) {
         return <Navigate replace to="/" />
     }
-    console.log(anecdote)
 
     return (
         <div>

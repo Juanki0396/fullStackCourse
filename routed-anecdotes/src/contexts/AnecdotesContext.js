@@ -1,7 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 
 const anecdotesReducer = (state, { type, payload }) => {
-    console.log("Anecdotes Reducer:", type, payload)
     switch(type) {
         case "ADD":
             return state.concat({
