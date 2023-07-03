@@ -1,11 +1,16 @@
-import { useEffect } from "react"
+import { useSelector } from "react-redux"
 
-const Notification = ({ notificationState }) => {
-    const { notification, setNotification } = notificationState
+const Notification = () => {
+    const note = useSelector(state => state.notification)
 
     const infoStyle = {
         color: "green",
         backgroundColor: "grey",
+        borderStyle: "solid",
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
     }
 
     const errStyle = {
@@ -18,21 +23,13 @@ const Notification = ({ notificationState }) => {
         paddingRight: 10,
     }
 
-    useEffect(() => {
-        if (notification) {
-            setTimeout(() => {
-                setNotification(null)
-            }, 5000)
-        }
-    }, [notification, setNotification])
-
-    if (!notification || !notification.type || !notification.msg) {
+    if (!note || !note.type || !note.msg) {
         return null
     }
 
-    const style = notification.type === 0 ? infoStyle : errStyle
+    const style = note.type === "INFO" ? infoStyle : errStyle
 
-    return <div style={style}>{notification.msg}</div>
+    return <div style={style}>{note.msg}</div>
 }
 
 export default Notification

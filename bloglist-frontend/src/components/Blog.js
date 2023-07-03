@@ -1,8 +1,12 @@
 import { useState } from "react"
-import blogServices from "../services/blogs"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchBlogs, deleteBlog, addLike } from "../reducers/blogs"
+import { Link } from "react-router-dom"
 
-const Blog = ({ blog, user, fetchBlogs }) => {
+const Blog = ({ blog }) => {
     const [hide, setHide] = useState(true)
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
 
     const blogStyle = {
         paddingTop: 10,
@@ -28,39 +32,33 @@ const Blog = ({ blog, user, fetchBlogs }) => {
     }
 
     const likePost = async () => {
-        const blogToPut = { ...blog }
-        blogToPut.likes += 1
-        blog.user = user.id
         try {
-            await blogServices.putBlog(blog.id, blogToPut, user.token)
+            dispatch(addLike(blog, user.token))
         } catch (ex) {
             console.error(ex.response)
         }
-        fetchBlogs()
+        dispatch(fetchBlogs())
     }
 
-    const deleteBlog = async () => {
-        if (
-            !window.confirm(
-                `Do you want to delete ${blog.title} by ${blog.author}`
-            )
-        ) {
+    const onDelete = async () => {
+        const confirmation = window.confirm(`Do you want to delete ${blog.title} by ${blog.author}`)
+        if (!confirmation) {
             return null
         }
         try {
-            await blogServices.deleteBlog(blog.id, user.token)
+            dispatch(deleteBlog(blog.id, user.token))
         } catch (ex) {
             console.error(ex.response)
         }
-        fetchBlogs()
+        dispatch(fetchBlogs())
     }
 
     return (
         <div style={blogStyle}>
             <div className="blog-basic">
-                <p style={{ display: "inline" }}>
+                <Link style={{ display: "inline" }} to={`/blogs/${blog.id}`}>
                     <b>{blog.title}</b> by <i>{blog.author}</i>
-                </p>
+                </Link>
                 <button onClick={toggle}>{buttonText}</button>
             </div>
             <div className="blog-extra" style={hideOnHide}>
@@ -73,7 +71,7 @@ const Blog = ({ blog, user, fetchBlogs }) => {
                 <br />
                 <p style={{ display: "inline" }}>User: {blog.user.userName}</p>
                 <br />
-                <button style={deleteStyle} onClick={deleteBlog}>
+                <button style={deleteStyle} onClick={onDelete}>
                     Delete
                 </button>
             </div>

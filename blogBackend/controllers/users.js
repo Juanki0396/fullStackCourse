@@ -16,6 +16,20 @@ userRouter.get("/", async (req, res) => {
     res.json(users)
 })
 
+userRouter.get("/:userName", async (req, res) => {
+    const userName = req.params.userName
+    const user = await User
+        .findOne({ userName })
+        .populate(
+            "blogs",
+            {
+                title: 1,
+                likes: 1
+            }
+        )
+    res.json(user)
+})
+
 userRouter.post("/", async (req, res, next) => {
     const { userName, name, password } = req.body
 

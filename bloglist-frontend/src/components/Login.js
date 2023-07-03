@@ -1,32 +1,22 @@
-import { useState } from "react"
-import loginService from "../services/login"
+import { createError } from "../reducers/notification"
+import { useDispatch } from "react-redux"
+import { useField } from "../hooks"
+import { loginUser } from "../reducers/user"
 
-const Login = ({ setUser, setNotification }) => {
-    const [userName, setUserName] = useState("")
-    const [password, setPassword] = useState("")
-
-    const onInputChangeGen = (setter) => {
-        return ({ target }) => {
-            setter(target.value)
-        }
-    }
+const Login = () => {
+    const [userName, resetUserName] = useField("userName", "text")
+    const [password, resetPassword] = useField("passworda", "password")
+    const dispatch = useDispatch()
 
     const onLoginPost = async (ev) => {
         ev.preventDefault()
         try {
-            const userData = await loginService.login({
-                userName,
-                password,
-            })
-            window.localStorage.setItem("blogAppUser", JSON.stringify(userData))
-            setUser(userData)
-            setUserName("")
-            setPassword("")
+            dispatch(loginUser(userName.value, password.value))
+            resetUserName()
+            resetPassword()
         } catch (ex) {
-            setNotification({
-                msg: "Wrong Credentials",
-                type: 1,
-            })
+            console.log(ex)
+            dispatch(createError("Wrong Credentials", 3))
         }
     }
 
@@ -36,21 +26,11 @@ const Login = ({ setUser, setNotification }) => {
             <form onSubmit={onLoginPost}>
                 <div>
                     Username
-                    <input
-                        name="Username"
-                        type="text"
-                        value={userName}
-                        onChange={onInputChangeGen(setUserName)}
-                    />
+                    <input {...userName} />
                 </div>
                 <div>
                     Password
-                    <input
-                        name="Password"
-                        type="password"
-                        value={password}
-                        onChange={onInputChangeGen(setPassword)}
-                    />
+                    <input {...password} />
                 </div>
                 <button type="submit">Submit</button>
             </form>
