@@ -9,20 +9,18 @@ const Blog = ({ blog, user, fetchBlogs }) => {
         paddingLeft: 2,
         border: "solid",
         borderWidth: 1,
-        marginBottom: 5
+        marginBottom: 5,
     }
 
     const hideOnHide = {
-        display: hide ? "none" : ""
+        display: hide ? "none" : "",
     }
 
-    const buttonText = hide
-        ? "Show"
-        : "Hide"
+    const buttonText = hide ? "Show" : "Hide"
 
     const deleteStyle = {
         display: user.userName === blog.user.userName ? "" : "none",
-        color: "blue"
+        color: "blue",
     }
 
     const toggle = () => {
@@ -35,21 +33,23 @@ const Blog = ({ blog, user, fetchBlogs }) => {
         blog.user = user.id
         try {
             await blogServices.putBlog(blog.id, blogToPut, user.token)
-        }
-        catch(ex){
+        } catch (ex) {
             console.error(ex.response)
         }
         fetchBlogs()
     }
 
     const deleteBlog = async () => {
-        if (!window.confirm(`Do you want to delete ${blog.title} by ${blog.author}`)){
+        if (
+            !window.confirm(
+                `Do you want to delete ${blog.title} by ${blog.author}`
+            )
+        ) {
             return null
         }
         try {
             await blogServices.deleteBlog(blog.id, user.token)
-        }
-        catch(ex){
+        } catch (ex) {
             console.error(ex.response)
         }
         fetchBlogs()
@@ -58,18 +58,24 @@ const Blog = ({ blog, user, fetchBlogs }) => {
     return (
         <div style={blogStyle}>
             <div className="blog-basic">
-                <p style={{ display: "inline" }}><b>{blog.title}</b> by <i>{blog.author}</i></p>
+                <p style={{ display: "inline" }}>
+                    <b>{blog.title}</b> by <i>{blog.author}</i>
+                </p>
                 <button onClick={toggle}>{buttonText}</button>
             </div>
             <div className="blog-extra" style={hideOnHide}>
-                <p style={{ display: "inline" }}>Url: <a href={blog.url}>{blog.url}</a></p>
-                <br/>
+                <p style={{ display: "inline" }}>
+                    Url: <a href={blog.url}>{blog.url}</a>
+                </p>
+                <br />
                 <p style={{ display: "inline" }}>Likes: {blog.likes}</p>
                 <button onClick={likePost}>Like</button>
-                <br/>
+                <br />
                 <p style={{ display: "inline" }}>User: {blog.user.userName}</p>
-                <br/>
-                <button style={deleteStyle} onClick={deleteBlog}>Delete</button>
+                <br />
+                <button style={deleteStyle} onClick={deleteBlog}>
+                    Delete
+                </button>
             </div>
         </div>
     )

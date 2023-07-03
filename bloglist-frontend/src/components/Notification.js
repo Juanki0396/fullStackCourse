@@ -5,7 +5,7 @@ const Notification = ({ notificationState }) => {
 
     const infoStyle = {
         color: "green",
-        backgroundColor: "grey"
+        backgroundColor: "grey",
     }
 
     const errStyle = {
@@ -18,34 +18,21 @@ const Notification = ({ notificationState }) => {
         paddingRight: 10,
     }
 
-    const defaultStyle = {
-        color: "black"
-    }
-
-    useEffect( () => {
+    useEffect(() => {
         if (notification) {
-            setTimeout( () => {
+            setTimeout(() => {
                 setNotification(null)
             }, 5000)
         }
-    }, [notification, setNotification] )
+    }, [notification, setNotification])
 
     if (!notification || !notification.type || !notification.msg) {
         return null
     }
 
-    const style = notification.type === 0
-        ? infoStyle
-        : notification.type === 1
-            ? errStyle
-            : defaultStyle
+    const style = notification.type === 0 ? infoStyle : errStyle
 
-    return (
-        <div style={style}>
-            {notification.msg}
-        </div>
-    )
-
+    return <div style={style}>{notification.msg}</div>
 }
 
 export default Notification

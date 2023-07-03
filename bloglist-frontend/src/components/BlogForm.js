@@ -11,7 +11,7 @@ const Blogform = ({ user, setNotification, fetchBlogs }) => {
         const blogToSubmit = {
             title,
             author,
-            url
+            url,
         }
 
         try {
@@ -20,14 +20,12 @@ const Blogform = ({ user, setNotification, fetchBlogs }) => {
             setTitle("")
             setAuthor("")
             setUrl("")
-        }
-        catch(ex) {
+        } catch (ex) {
             setNotification({
                 msg: ex.response.data.error,
-                type: 1
+                type: 1,
             })
         }
-
     }
 
     return (
@@ -59,7 +57,9 @@ const Blogform = ({ user, setNotification, fetchBlogs }) => {
                     onChange={({ target }) => setUrl(target.value)}
                 />
             </div>
-            <button className="submitButton" type="submit">Submit</button>
+            <button className="submitButton" type="submit">
+                Submit
+            </button>
         </form>
     )
 }

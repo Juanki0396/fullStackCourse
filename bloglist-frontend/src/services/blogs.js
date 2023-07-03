@@ -8,7 +8,7 @@ const getAll = async () => {
 
 const postOne = async (blogData, token) => {
     const headers = {
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + token,
     }
     const res = await axios.post("/api/blogs", blogData, { headers })
     return res.data
@@ -16,18 +16,18 @@ const postOne = async (blogData, token) => {
 
 const putBlog = async (id, blogData, token) => {
     const headers = {
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + token,
     }
-    const res = await axios.put(`/api/blogs/${id}` , blogData, { headers })
+    const res = await axios.put(`/api/blogs/${id}`, blogData, { headers })
     return res.data
 }
 
 const deleteBlog = async (id, token) => {
     const headers = {
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + token,
     }
     const res = await axios.delete(`/api/blogs/${id}`, { headers })
     return res.data
 }
 
-export default { getAll , postOne, putBlog, deleteBlog }
+export default { getAll, postOne, putBlog, deleteBlog }

@@ -15,26 +15,21 @@ describe("Blog component tests", () => {
             url: "Blog url",
             likes: 0,
             user: {
-                userName: "Mom"
+                userName: "Mom",
             },
         }
         const user = {
             token: "asdfsadfsdfs",
-            userName: "Mom"
+            userName: "Mom",
         }
         fetchBlogs = jest.fn()
 
         container = render(
-            <Blog
-                blog={blog}
-                user={user}
-                fetchBlogs={fetchBlogs}
-            />
+            <Blog blog={blog} user={user} fetchBlogs={fetchBlogs} />
         ).container
     })
 
     test("URL and likes not redered by default", async () => {
-
         const titleDiv = container.querySelector(".blog-basic")
         const urlDiv = container.querySelector(".blog-extra")
 

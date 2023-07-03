@@ -1,6 +1,6 @@
 import React from "react"
 import "@testing-library/jest-dom/extend-expect"
-import { render, screen } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import axios from "axios"
 import BlogForm from "./BlogForm"
@@ -18,7 +18,7 @@ describe("BlogForm tests", () => {
 
         const user = {
             userName: "Mom",
-            token: "123412312"
+            token: "123412312",
         }
         container = render(
             <BlogForm

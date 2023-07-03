@@ -15,11 +15,17 @@ const App = () => {
     return (
         <div>
             <h1>Blog App</h1>
-            <Notification notificationState={{ notification, setNotification }} />
-            {!user
-                ? <Login setUser={setUser} setNotification={setNotification} />
-                : <BlogList userState={{ user, setUser }} setNotification={setNotification} />
-            }
+            <Notification
+                notificationState={{ notification, setNotification }}
+            />
+            {!user ? (
+                <Login setUser={setUser} setNotification={setNotification} />
+            ) : (
+                <BlogList
+                    userState={{ user, setUser }}
+                    setNotification={setNotification}
+                />
+            )}
         </div>
     )
 }

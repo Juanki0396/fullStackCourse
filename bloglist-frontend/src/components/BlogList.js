@@ -14,13 +14,13 @@ const BlogList = ({ userState, setNotification }) => {
         setUser(null)
         setNotification({
             msg: "Logged out succesfully",
-            type: 0
+            type: 0,
         })
     }
 
     const fetchBlogs = async () => {
         const blogsFetched = await blogServices.getAll()
-        setBlogs( blogsFetched )
+        setBlogs(blogsFetched)
     }
 
     useEffect(() => {
@@ -33,13 +33,14 @@ const BlogList = ({ userState, setNotification }) => {
         }
     }, [blogs])
 
-
     return (
         <>
             <h2>Blogs</h2>
             <div>
-                <label htmlFor="logout">{user.userName} is  logged in</label>
-                <button id="logout" onClick={logout}>Log Out</button>
+                <label htmlFor="logout">{user.userName} is logged in</label>
+                <button id="logout" onClick={logout}>
+                    Log Out
+                </button>
             </div>
             <h3>New blog</h3>
             <Togglable buttonText={"Create"} ref={blogFormRef}>
@@ -50,14 +51,16 @@ const BlogList = ({ userState, setNotification }) => {
                 />
             </Togglable>
             <h3>Blog entries</h3>
-            {blogs.sort((a,b) => a.likes < b.likes).map(blog =>
-                <Blog
-                    key={blog.id}
-                    blog={blog}
-                    user={user}
-                    fetchBlogs={fetchBlogs}
-                />
-            )}
+            {blogs
+                .sort((a, b) => a.likes < b.likes)
+                .map((blog) => (
+                    <Blog
+                        key={blog.id}
+                        blog={blog}
+                        user={user}
+                        fetchBlogs={fetchBlogs}
+                    />
+                ))}
         </>
     )
 }

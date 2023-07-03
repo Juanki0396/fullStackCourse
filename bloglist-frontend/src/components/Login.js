@@ -1,7 +1,7 @@
 import { useState } from "react"
 import loginService from "../services/login"
 
-const Login = ( { setUser, setNotification }) => {
+const Login = ({ setUser, setNotification }) => {
     const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
 
@@ -16,17 +16,16 @@ const Login = ( { setUser, setNotification }) => {
         try {
             const userData = await loginService.login({
                 userName,
-                password
+                password,
             })
             window.localStorage.setItem("blogAppUser", JSON.stringify(userData))
             setUser(userData)
             setUserName("")
             setPassword("")
-        }
-        catch(ex){
+        } catch (ex) {
             setNotification({
                 msg: "Wrong Credentials",
-                type: 1
+                type: 1,
             })
         }
     }
@@ -53,9 +52,7 @@ const Login = ( { setUser, setNotification }) => {
                         onChange={onInputChangeGen(setPassword)}
                     />
                 </div>
-                <button type="submit">
-                    Submit
-                </button>
+                <button type="submit">Submit</button>
             </form>
         </div>
     )
