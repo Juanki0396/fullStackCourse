@@ -1,53 +1,36 @@
-import { useEffect, useRef } from "react"
-import Blog from "./Blog"
-import Togglable from "./Togglable"
+import { useEffect } from "react"
 import Blogform from "./BlogForm"
 import { useDispatch, useSelector } from "react-redux"
-import { createNotification } from "../reducers/notification"
 import { fetchBlogs } from "../reducers/blogs"
-import { cleanUser } from "../reducers/user"
+import { Routes, Route, useNavigate } from "react-router-dom"
+import BlogList from "./BlogList"
+import BlogInfoView from "./BlogInfoView"
 
 const BlogsView = () => {
-    const blogFormRef = useRef()
     const dispatch = useDispatch()
-    const blogs = useSelector(state => state.blogs)
     const user = useSelector(state => state.user)
+    const navigate = useNavigate()
 
-    const logout = () => {
-        dispatch(cleanUser())
-        dispatch(createNotification("Logged out succesfully",3))
-    }
+    useEffect(() => {
+        if (!user) {
+            navigate("/login")
+        }
+    }, [user])
 
     useEffect(() => {
         dispatch(fetchBlogs())
     }, [])
 
-    useEffect(() => {
-        if (blogFormRef.current.toggled) {
-            blogFormRef.current.setToggled(false)
-        }
-    }, [blogs])
 
     return (
         <>
-            <h2>Blogs</h2>
-            <div>
-                <label htmlFor="logout">{user.userName} is logged in</label>
-                <button id="logout" onClick={logout}>
-                    Log Out
-                </button>
-            </div>
-            <h3>New blog</h3>
-            <Togglable buttonText={"Create"} ref={blogFormRef}>
-                <Blogform />
-            </Togglable>
-            <h3>Blog entries</h3>
-            {blogs.map((blog) => (
-                <Blog
-                    key={blog.id}
-                    blog={blog}
-                />
-            ))}
+            <h2 className="text-3xl text-center">Blogs</h2>
+            <h3 className="text-xl">New blog</h3>
+            <Blogform />
+            <Routes>
+                <Route path="/" element={<BlogList />} />
+                <Route path="/:id" element={<BlogInfoView />} />
+            </Routes>
         </>
     )
 }

@@ -103,6 +103,19 @@ describe("Post blogs", () => {
             .expect(400)
     })
 
+    test("Add comment", async () => {
+        const users = await helper.usersInDb()
+        const token = jwt.sign(users[0], config.SECRET)
+        const blogsBefore = await helper.blogsInDb()
+        const blogId = blogsBefore[0].id
+        const res = await api
+            .post(`/api/blogs/${blogId}/comments`)
+            .set("authorization", `Bearer ${token}`)
+            .send({comment: "Nuevo comentario" })
+            .expect(201)
+        expect(res.body.comments).toHaveLength(1)
+    })
+
 })
 
 describe("Deleting blogs", () => {

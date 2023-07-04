@@ -1,23 +1,27 @@
-import { createError } from "../reducers/notification"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useField } from "../hooks"
 import { loginUser } from "../reducers/user"
+import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 const Login = () => {
     const [userName, resetUserName] = useField("userName", "text")
     const [password, resetPassword] = useField("passworda", "password")
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const user = useSelector(state => state.user)
+
+    useEffect(() => {
+        if(user){
+            navigate("/")
+        }
+    }, [user])
 
     const onLoginPost = async (ev) => {
         ev.preventDefault()
-        try {
-            dispatch(loginUser(userName.value, password.value))
-            resetUserName()
-            resetPassword()
-        } catch (ex) {
-            console.log(ex)
-            dispatch(createError("Wrong Credentials", 3))
-        }
+        dispatch(loginUser(userName.value, password.value))
+        resetUserName()
+        resetPassword()
     }
 
     return (

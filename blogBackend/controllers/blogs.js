@@ -32,6 +32,37 @@ blogRouter.post("/", userExtractor, async (request, response, next) => {
     }
 })
 
+blogRouter.post("/:id/comments", userExtractor, async (request, response, next) => {
+    const { user , body } = request
+    const blogId = request.params.id
+
+    try {
+        const blogToUpdate = await Blog.findById(blogId)
+        if (!blogToUpdate) {
+            return response.status(404).end()
+        }
+        const updatedBlog = await Blog.findByIdAndUpdate(
+            blogId,
+            { 
+                title: blogToUpdate.title, 
+                author: blogToUpdate.author, 
+                url: blogToUpdate.url, 
+                likes: blogToUpdate.likes, 
+                user: blogToUpdate.user,
+                comments: blogToUpdate.comments.concat({
+                    msg: body.comment,
+                    user: user.id
+                })
+            }, 
+            {new: true, runValidators: true, context: "query"}
+        )
+        response.status(201).json(updatedBlog)
+    }
+    catch (ex){
+        next(ex)
+    }
+})
+
 blogRouter.delete("/:id", userExtractor, async (req, res, next) => {
     const blogId = req.params.id
     const { user } = req

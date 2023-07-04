@@ -32,11 +32,14 @@ const Blogform = () => {
     }
 
     return (
-        <form onSubmit={onSubmitBlog}>
-            <div>
-                <label htmlFor="blogTitle">Title: </label>
-                <input {...title} />
-            </div>
+        <form className="flex flex-col bg-black" onSubmit={onSubmitBlog}>
+            <label className="block">
+                <label className="block text-l font-medium text-gray-300">Title</label>
+                <input className="mt-1 rounded px-2 py-1 bg-white border border-slate-600 text-gray-900
+                focus:bg-slate-400"
+                {...title}
+                />
+            </label>
             <div>
                 <label htmlFor="blogAuthor">Author: </label>
                 <input {...author} />

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import loginService from "../services/login"
-import { createNotification } from "./notification"
+import { createError, createNotification } from "./notification"
 
 const localStorageUserKey = "blogAppUser"
 
@@ -30,9 +30,13 @@ export const { setUser, cleanUser, fetchUser } = userSlice.actions
 
 export const loginUser = (userName, password) => {
     return async dispatch => {
-        const userData = await loginService.login({ userName, password })
-        dispatch(setUser(userData))
-        dispatch(createNotification(`Welcome again ${userData.userName}`, 3))
+        try {
+            const userData = await loginService.login({ userName, password })
+            dispatch(setUser(userData))
+            dispatch(createNotification(`Welcome again ${userData.userName}`, 3))
+        } catch(ex) {
+            dispatch(createError("Wrong Credentials", 3))
+        }
     }
 }
 

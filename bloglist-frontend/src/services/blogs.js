@@ -14,6 +14,14 @@ const postOne = async (blogData, token) => {
     return res.data
 }
 
+const postComment = async (blogId, comment, token) => {
+    const headers = {
+        Authorization: "Bearer " + token,
+    }
+    const res = await axios.post(`/api/blogs/${blogId}/comments`, { comment }, { headers })
+    return res.data
+}
+
 const putBlog = async (id, blogData, token) => {
     const headers = {
         Authorization: "Bearer " + token,
@@ -30,4 +38,4 @@ const deleteBlog = async (id, token) => {
     return res.data
 }
 
-export default { getAll, postOne, putBlog, deleteBlog }
+export default { getAll, postOne, putBlog, deleteBlog, postComment }
